@@ -5,6 +5,8 @@ inputs:
     description: 'Name of Repo'
   owner:
     description: 'owner of Repo'
+  token:
+    description: 'Token to authenticate with GitHub'
   tag_name:
     description: 'The name of the tag to create, e.g. v1.0.0'
     required: true

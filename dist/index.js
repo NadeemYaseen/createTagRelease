@@ -31105,8 +31105,15 @@ async function main() {
   const owner = core.getInput('owner') || context.repo.owner;
   const repo = core.getInput('repo') || context.repo.repo;
 
+  // Get the token input or fallback to the GITHUB_TOKEN environment variable
+  const token = core.getInput('token') || process.env.GITHUB_TOKEN;
+
+  if (!token) {
+    throw new Error("GitHub token is required either as input or in the GITHUB_TOKEN environment variable.");
+  }
+
   // Create a new GitHub instance authenticated with the token
-  const github = new GitHub(process.env.GITHUB_TOKEN);
+  const github = new GitHub(token);
 
   // Create a release
   const r = await github.repos.createRelease({

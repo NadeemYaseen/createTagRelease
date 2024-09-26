@@ -25,6 +25,7 @@ The only mandatory input parameter is the tag name.
 * `repo`: name of repo on which tag and release will be created, default to current repository 
 * `owner`:  name of owner on which tag and release will be created, default to current owner
 * `tag_name`: (required) the name of the tag to be created, Required. 
+* `token`: a token with write permission to create tag and release on repo other than current, default is GITHUB Token
 * `release_name`: the name of the new release; if omitted, defaults to `tag_name`
 * `commit`: the commit to which the new tag should point, defaults to `${{ GITHUB_SHA }}`
 * `body`: optional text of the release body
