@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@actions/core": "^1.2.2",
+    "@actions/github": "^6.0.0",
+    "@vercel/ncc": "^0.38.2"
+  }
+}
