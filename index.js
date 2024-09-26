@@ -1,9 +1,9 @@
 const core = require('@actions/core');
-const { GitHub, context } = require('@actions/github');
+const github = require('@actions/github');
 
 async function main() {
   // Get the inputs for commit, tag, release name, body, draft, and prerelease.
-  const commit = core.getInput('commit') || context.sha;
+  const commit = core.getInput('commit') || github.context.sha;
   const tagName = core.getInput('tag_name', { required: true });
   const releaseName = core.getInput('release_name') || tagName;
   const body = core.getInput('body');
@@ -11,8 +11,8 @@ async function main() {
   const prerelease = core.getInput('prerelease') === 'true';
 
   // Get optional inputs for owner and repo, fall back to context if not provided
-  const owner = core.getInput('owner') || context.repo.owner;
-  const repo = core.getInput('repo') || context.repo.repo;
+  const owner = core.getInput('owner') || github.context.repo.owner;
+  const repo = core.getInput('repo') || github.context.repo.repo;
 
   // Get the token input or fallback to the GITHUB_TOKEN environment variable
   const token = core.getInput('token') || process.env.GITHUB_TOKEN;
@@ -21,11 +21,11 @@ async function main() {
     throw new Error("GitHub token is required either as input or in the GITHUB_TOKEN environment variable.");
   }
 
-  // Create a new GitHub instance authenticated with the token
-  const github = new GitHub(token);
+  // Use getOctokit to authenticate the GitHub API client
+  const octokit = github.getOctokit(token);
 
   // Create a release
-  const r = await github.repos.createRelease({
+  const r = await octokit.repos.createRelease({
     owner: owner,            // Use input or fallback to the current repository owner
     repo: repo,              // Use input or fallback to the current repository name
     tag_name: tagName,
